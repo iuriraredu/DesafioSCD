@@ -1,0 +1,413 @@
+{
+	"info": {
+		"_postman_id": "b33c87cd-b585-4a43-8ccd-88320861cb7f",
+		"name": "Desafio Sicred",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14980019",
+		"_collection_link": "https://orange-eclipse-807969.postman.co/workspace/Desafio-Sicred~85c374cb-fcef-464b-b232-b4e98ae76ea7/collection/14980019-b33c87cd-b585-4a43-8ccd-88320861cb7f?action=share&source=collection_link&creator=14980019"
+	},
+	"item": [
+		{
+			"name": "GET /test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code retornou 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"O campo 'status' deve ser igual a 'OK'\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status).to.eql(\"ok\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"O campo 'method' deve ser igual a 'GET'\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.method).to.eql(\"GET\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/test",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"pm.test(\"Status code retornou 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Cada usuário na lista deve ter todos os campos essenciais\", function () {\r",
+							"    pm.expect(pm.response.json().users).to.be.an('array');\r",
+							"\r",
+							"    pm.response.json().users.forEach(function (user, index) {\r",
+							"        pm.test(`Usuário #${index + 1} - Validação dos campos`, function () {\r",
+							"            pm.expect(user).to.have.property('id');\r",
+							"            pm.expect(user).to.have.property('firstName');\r",
+							"            pm.expect(user).to.have.property('lastName');\r",
+							"            pm.expect(user).to.have.property('email');\r",
+							"            pm.expect(user).to.have.property('phone');\r",
+							"            pm.expect(user).to.have.property('username');\r",
+							"        });\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/users",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /auth/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var resp = pm.response;\r",
+							"\r",
+							"// Salva Access Token gerado pela API numa variaavel da collection\r",
+							"pm.collectionVariables.set(\"accessToken\", \"Bearer \" + resp.json().accessToken);\r",
+							"\r",
+							"// Salva Refresh Token gerado pela API numa variaavel da collection\r",
+							"pm.collectionVariables.set(\"refreshToken\", \"Bearer \" + resp.json().refreshToken);\r",
+							"\r",
+							"pm.test(\"Status code retornou 200\", function () {\r",
+							"    resp.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response tem os campos 'username', 'accessToken' e 'refreshToken'\", function() {\r",
+							"    pm.expect(resp.json()).to.have.property('username');\r",
+							"    pm.expect(resp.json()).to.have.property('accessToken');\r",
+							"    pm.expect(resp.json()).to.have.property('refreshToken');\r",
+							"    pm.expect(resp.json().username).to.be.a('string').and.to.not.be.empty;\r",
+							"    pm.expect(resp.json().accessToken).to.be.a('string').and.to.not.be.empty;\r",
+							"    pm.expect(resp.json().refreshToken).to.be.a('string').and.to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"emilys\",\n    \"password\": \"emilyspass\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base-url}}/auth/login",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /auth/products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var resp = pm.response;\r",
+							"\r",
+							"pm.test(\"Status code retornou 200\", function () {\r",
+							"    resp.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Cada produto na lista deve ter todos os campos essenciais\", function () {\r",
+							"    pm.expect(resp.json().products).to.be.an('array'); \r",
+							"\r",
+							"    resp.json().products.forEach(function (product, index) {\r",
+							"        pm.test(`Produto #${index + 1} - Validação dos campos`, function () {\r",
+							"            pm.expect(product).to.have.property('id');\r",
+							"            pm.expect(product).to.have.property('title');\r",
+							"            pm.expect(product).to.have.property('description');\r",
+							"            pm.expect(product).to.have.property('category');\r",
+							"            pm.expect(product).to.have.property('price');\r",
+							"            pm.expect(product).to.have.property('stock');\r",
+							"        });\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{accessToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{base-url}}/auth/products",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"auth",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /products/add",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code retornou 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(`Produto - Validação dos campos`, function () {\r",
+							"    pm.expect(pm.response.json()).to.have.property('id');\r",
+							"    pm.expect(pm.response.json()).to.have.property('title');\r",
+							"    pm.expect(pm.response.json()).to.have.property('description');\r",
+							"    pm.expect(pm.response.json()).to.have.property('category');\r",
+							"    pm.expect(pm.response.json()).to.have.property('price');\r",
+							"    pm.expect(pm.response.json()).to.have.property('stock');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Perfume Oil\",\n    \"description\": \"Mega Discount, Impression of A...\",\n    \"price\": 13,\n    \"discountPercentage\": 8.4,\n    \"rating\": 4.26,\n    \"stock\": 65,\n    \"brand\": \"Impression of Acqua Di Gio\",\n    \"category\": \"fragrances\",\n    \"thumbnail\": \"https://i.dummyjson.com/data/products/11/thumnail.jpg\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base-url}}/products/add",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"products",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var resp = pm.response;\r",
+							"\r",
+							"pm.test(\"Status code retornou 200\", function () {\r",
+							"    resp.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Cada produto na lista deve ter todos os campos essenciais\", function () {\r",
+							"    pm.expect(resp.json().products).to.be.an('array'); \r",
+							"\r",
+							"    resp.json().products.forEach(function (product, index) {\r",
+							"        pm.test(`Produto #${index + 1} - Validação dos campos`, function () {\r",
+							"            pm.expect(product).to.have.property('id');\r",
+							"            pm.expect(product).to.have.property('title');\r",
+							"            pm.expect(product).to.have.property('description');\r",
+							"            pm.expect(product).to.have.property('category');\r",
+							"            pm.expect(product).to.have.property('price');\r",
+							"            pm.expect(product).to.have.property('stock');\r",
+							"        });\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/products",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /products/:id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var resp = pm.response;\r",
+							"\r",
+							"pm.test(\"Status code retornou 200\", function () {\r",
+							"    resp.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(`Produto - Validação dos campos`, function () {\r",
+							"    pm.expect(resp.json()).to.have.property('id');\r",
+							"    pm.expect(resp.json()).to.have.property('title');\r",
+							"    pm.expect(resp.json()).to.have.property('description');\r",
+							"    pm.expect(resp.json()).to.have.property('category');\r",
+							"    pm.expect(resp.json()).to.have.property('price');\r",
+							"    pm.expect(resp.json()).to.have.property('stock');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/products/:id",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"products",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "20"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "accessToken",
+			"value": ""
+		},
+		{
+			"key": "refreshToken",
+			"value": ""
+		},
+		{
+			"key": "base-url",
+			"value": "https://dummyjson.com",
+			"type": "default"
+		}
+	]
+}
