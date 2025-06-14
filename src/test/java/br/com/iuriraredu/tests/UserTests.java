@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(ReportUtils.class)
 public class UserTests extends TestConfig{
     @Test
-    @DisplayName("Login com credenciais válidas")
+    @DisplayName("Listar de usuários ")
     public void testGetAllUsers(){
         var response = UserService.getUsers();
 
