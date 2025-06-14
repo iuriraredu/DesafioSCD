@@ -60,7 +60,5 @@ public class ApiConfig {
     public static String getInvalidPassword() {
         return properties.getProperty("invalid.password");
     }
-
-    // Adicione outros métodos getter conforme necessário
 }
 

@@ -8,7 +8,6 @@ import br.com.iuriraredu.services.AuthService;
 import br.com.iuriraredu.services.ProductService;
 import br.com.iuriraredu.utils.ReportUtils;
 import br.com.iuriraredu.utils.RestAssuredUtils;
-import io.qameta.allure.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,8 +15,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(ReportUtils.class)
-@Epic("Autenticação API")
-@Feature("Login de Usuários")
 public class AuthTests extends TestConfig{
 
     @Test
@@ -74,6 +71,3 @@ public class AuthTests extends TestConfig{
         ReportUtils.logInfo("Endpoint protegido não acessado com token inválido - Status 401 retornado");
     }
 }
-
-
-

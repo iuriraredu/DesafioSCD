@@ -6,7 +6,6 @@ import br.com.iuriraredu.services.ProductService;
 import br.com.iuriraredu.utils.JsonDataReader;
 import br.com.iuriraredu.utils.ReportUtils;
 import br.com.iuriraredu.utils.RestAssuredUtils;
-import io.qameta.allure.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,16 +15,12 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(ReportUtils.class)
-@Epic("Gerenciamento de Produtos")
-@Feature("Operações CRUD de Produtos")
 public class ProductTests extends TestConfig {
     private static final int EXISTING_PRODUCT_ID = 20;
     private static final int NON_EXISTING_PRODUCT_ID = 9999;
 
     @Test
     @DisplayName("Listar todos os produtos")
-    @Story("Usuário pode listar todos os produtos")
-    @Severity(SeverityLevel.BLOCKER)
     public void testGetAllProducts() {
         var response = ProductService.getProducts();
 
@@ -38,8 +33,6 @@ public class ProductTests extends TestConfig {
 
     @Test
     @DisplayName("Buscar produto por ID existente")
-    @Story("Usuário pode buscar produto por ID")
-    @Severity(SeverityLevel.CRITICAL)
     public void testGetProductById() {
         var response = ProductService.getProductById(EXISTING_PRODUCT_ID);
 
@@ -52,8 +45,6 @@ public class ProductTests extends TestConfig {
 
     @Test
     @DisplayName("Buscar produto por ID inexistente")
-    @Story("Sistema deve tratar produto não encontrado")
-    @Severity(SeverityLevel.NORMAL)
     public void testGetNonExistingProduct() {
         var response = ProductService.getProductById(NON_EXISTING_PRODUCT_ID);
 
@@ -63,8 +54,6 @@ public class ProductTests extends TestConfig {
 
     @Test
     @DisplayName("Adicionar novo produto")
-    @Story("Usuário pode adicionar produtos")
-    @Severity(SeverityLevel.CRITICAL)
     public void testAddProduct() {
         Product newProduct = new Product();
         newProduct.setTitle("Novo Produto");
@@ -85,8 +74,6 @@ public class ProductTests extends TestConfig {
 
     @Test
     @DisplayName("Adicionar produto com dados do JSON")
-    @Story("Usuário pode adicionar produto com dados externos")
-    @Severity(SeverityLevel.NORMAL)
     public void testAddProductWithJsonData() throws IOException {
         Product newProduct = JsonDataReader.readTestData(
                 "test-data/products.json",

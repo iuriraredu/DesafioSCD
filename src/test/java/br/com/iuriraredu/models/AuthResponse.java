@@ -15,6 +15,5 @@ public class AuthResponse {
     private String lastName;
     private String gender;
     private String image;
-    private String message; // Para o caso de erro
+    private String message;
 }
-

@@ -1,6 +1,5 @@
 package br.com.iuriraredu.config;
 
-import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
@@ -20,9 +19,6 @@ public class TestConfig {
                 .setContentType(ContentType.JSON)
                 .addFilter(new RequestLoggingFilter())
                 .addFilter(new ResponseLoggingFilter())
-                .addFilter(new AllureRestAssured())
                 .build();
-
-        RestAssured.filters(new AllureRestAssured());
     }
 }
