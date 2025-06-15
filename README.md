@@ -32,7 +32,7 @@ Framework de automação de testes para a API dummyjson.com, implementado em Jav
 Para executar o framework, basta clonar o repositório, configurar o Java 11 e executar `mvn test`. Os relatórios serão gerados automaticamente na pasta `target/reports/`.
 
 ### Pré-requisitos
-- JDK 11 instalado
+- JDK 21 instalado
 - Maven instalado
 
 ### Executando os testes
