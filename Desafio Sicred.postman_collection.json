@@ -8,369 +8,862 @@
 	},
 	"item": [
 		{
-			"name": "GET /test",
-			"event": [
+			"name": "/test",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code retornou 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"O campo 'status' deve ser igual a 'OK'\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.status).to.eql(\"ok\");\r",
-							"});\r",
-							"\r",
-							"pm.test(\"O campo 'method' deve ser igual a 'GET'\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.method).to.eql(\"GET\");\r",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base-url}}/test",
-					"host": [
-						"{{base-url}}"
-					],
-					"path": [
-						"test"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET /users",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"\r",
-							"\r",
-							"pm.test(\"Status code retornou 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Cada usuário na lista deve ter todos os campos essenciais\", function () {\r",
-							"    pm.expect(pm.response.json().users).to.be.an('array');\r",
-							"\r",
-							"    pm.response.json().users.forEach(function (user, index) {\r",
-							"        pm.test(`Usuário #${index + 1} - Validação dos campos`, function () {\r",
-							"            pm.expect(user).to.have.property('id');\r",
-							"            pm.expect(user).to.have.property('firstName');\r",
-							"            pm.expect(user).to.have.property('lastName');\r",
-							"            pm.expect(user).to.have.property('email');\r",
-							"            pm.expect(user).to.have.property('phone');\r",
-							"            pm.expect(user).to.have.property('username');\r",
-							"        });\r",
-							"    });\r",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base-url}}/users",
-					"host": [
-						"{{base-url}}"
-					],
-					"path": [
-						"users"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST /auth/login",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"var resp = pm.response;\r",
-							"\r",
-							"// Salva Access Token gerado pela API numa variaavel da collection\r",
-							"pm.collectionVariables.set(\"accessToken\", \"Bearer \" + resp.json().accessToken);\r",
-							"\r",
-							"// Salva Refresh Token gerado pela API numa variaavel da collection\r",
-							"pm.collectionVariables.set(\"refreshToken\", \"Bearer \" + resp.json().refreshToken);\r",
-							"\r",
-							"pm.test(\"Status code retornou 200\", function () {\r",
-							"    resp.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response tem os campos 'username', 'accessToken' e 'refreshToken'\", function() {\r",
-							"    pm.expect(resp.json()).to.have.property('username');\r",
-							"    pm.expect(resp.json()).to.have.property('accessToken');\r",
-							"    pm.expect(resp.json()).to.have.property('refreshToken');\r",
-							"    pm.expect(resp.json().username).to.be.a('string').and.to.not.be.empty;\r",
-							"    pm.expect(resp.json().accessToken).to.be.a('string').and.to.not.be.empty;\r",
-							"    pm.expect(resp.json().refreshToken).to.be.a('string').and.to.not.be.empty;\r",
-							"});\r",
-							"\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"username\": \"emilys\",\n    \"password\": \"emilyspass\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base-url}}/auth/login",
-					"host": [
-						"{{base-url}}"
-					],
-					"path": [
-						"auth",
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET /auth/products",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"var resp = pm.response;\r",
-							"\r",
-							"pm.test(\"Status code retornou 200\", function () {\r",
-							"    resp.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Cada produto na lista deve ter todos os campos essenciais\", function () {\r",
-							"    pm.expect(resp.json().products).to.be.an('array'); \r",
-							"\r",
-							"    resp.json().products.forEach(function (product, index) {\r",
-							"        pm.test(`Produto #${index + 1} - Validação dos campos`, function () {\r",
-							"            pm.expect(product).to.have.property('id');\r",
-							"            pm.expect(product).to.have.property('title');\r",
-							"            pm.expect(product).to.have.property('description');\r",
-							"            pm.expect(product).to.have.property('category');\r",
-							"            pm.expect(product).to.have.property('price');\r",
-							"            pm.expect(product).to.have.property('stock');\r",
-							"        });\r",
-							"    });\r",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "Authorization",
-						"value": "{{accessToken}}"
-					}
-				],
-				"url": {
-					"raw": "{{base-url}}/auth/products",
-					"host": [
-						"{{base-url}}"
-					],
-					"path": [
-						"auth",
-						"products"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST /products/add",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code retornou 201\", function () {\r",
-							"    pm.response.to.have.status(201);\r",
-							"});\r",
-							"\r",
-							"pm.test(`Produto - Validação dos campos`, function () {\r",
-							"    pm.expect(pm.response.json()).to.have.property('id');\r",
-							"    pm.expect(pm.response.json()).to.have.property('title');\r",
-							"    pm.expect(pm.response.json()).to.have.property('description');\r",
-							"    pm.expect(pm.response.json()).to.have.property('category');\r",
-							"    pm.expect(pm.response.json()).to.have.property('price');\r",
-							"    pm.expect(pm.response.json()).to.have.property('stock');\r",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"title\": \"Perfume Oil\",\n    \"description\": \"Mega Discount, Impression of A...\",\n    \"price\": 13,\n    \"discountPercentage\": 8.4,\n    \"rating\": 4.26,\n    \"stock\": 65,\n    \"brand\": \"Impression of Acqua Di Gio\",\n    \"category\": \"fragrances\",\n    \"thumbnail\": \"https://i.dummyjson.com/data/products/11/thumnail.jpg\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base-url}}/products/add",
-					"host": [
-						"{{base-url}}"
-					],
-					"path": [
-						"products",
-						"add"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET /products",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"var resp = pm.response;\r",
-							"\r",
-							"pm.test(\"Status code retornou 200\", function () {\r",
-							"    resp.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Cada produto na lista deve ter todos os campos essenciais\", function () {\r",
-							"    pm.expect(resp.json().products).to.be.an('array'); \r",
-							"\r",
-							"    resp.json().products.forEach(function (product, index) {\r",
-							"        pm.test(`Produto #${index + 1} - Validação dos campos`, function () {\r",
-							"            pm.expect(product).to.have.property('id');\r",
-							"            pm.expect(product).to.have.property('title');\r",
-							"            pm.expect(product).to.have.property('description');\r",
-							"            pm.expect(product).to.have.property('category');\r",
-							"            pm.expect(product).to.have.property('price');\r",
-							"            pm.expect(product).to.have.property('stock');\r",
-							"        });\r",
-							"    });\r",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base-url}}/products",
-					"host": [
-						"{{base-url}}"
-					],
-					"path": [
-						"products"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET /products/:id",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"var resp = pm.response;\r",
-							"\r",
-							"pm.test(\"Status code retornou 200\", function () {\r",
-							"    resp.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"pm.test(`Produto - Validação dos campos`, function () {\r",
-							"    pm.expect(resp.json()).to.have.property('id');\r",
-							"    pm.expect(resp.json()).to.have.property('title');\r",
-							"    pm.expect(resp.json()).to.have.property('description');\r",
-							"    pm.expect(resp.json()).to.have.property('category');\r",
-							"    pm.expect(resp.json()).to.have.property('price');\r",
-							"    pm.expect(resp.json()).to.have.property('stock');\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base-url}}/products/:id",
-					"host": [
-						"{{base-url}}"
-					],
-					"path": [
-						"products",
-						":id"
-					],
-					"variable": [
+					"name": "GET - 200",
+					"event": [
 						{
-							"key": "id",
-							"value": "20"
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code retornou 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"O campo 'status' deve ser igual a 'OK'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.status).to.eql(\"ok\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"O campo 'method' deve ser igual a 'GET'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.method).to.eql(\"GET\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/test",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"test"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/users",
+			"item": [
+				{
+					"name": "/:id",
+					"item": [
+						{
+							"name": "GET - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code retornou 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(`Usuário - Validação dos campos`, function () {\r",
+											"    pm.expect(pm.response.json()).to.have.property('id');\r",
+											"    pm.expect(pm.response.json()).to.have.property('firstName');\r",
+											"    pm.expect(pm.response.json()).to.have.property('lastName');\r",
+											"    pm.expect(pm.response.json()).to.have.property('email');\r",
+											"    pm.expect(pm.response.json()).to.have.property('phone');\r",
+											"    pm.expect(pm.response.json()).to.have.property('username');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/users/:id",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DEL - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code retornou 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Campo 'isDeleted' retornou 'true'\", function () {\r",
+											"    pm.expect(pm.response.json().isDeleted).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(`Usuário - Validação dos campos`, function () {\r",
+											"    pm.expect(pm.response.json()).to.have.property('id');\r",
+											"    pm.expect(pm.response.json()).to.have.property('firstName');\r",
+											"    pm.expect(pm.response.json()).to.have.property('lastName');\r",
+											"    pm.expect(pm.response.json()).to.have.property('email');\r",
+											"    pm.expect(pm.response.json()).to.have.property('phone');\r",
+											"    pm.expect(pm.response.json()).to.have.property('username');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/users/:id",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Inválido (numérico) - 404",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code retornou 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Campo 'message' retorna 'User with id '9999' not found'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"User with id '9999' not found\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/users/:id",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{idInvalido}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Inválido (alfabético) - 400",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code retornou 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Campo 'message' retorna 'Invalid user id 'inv''\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"Invalid user id 'inv'\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/users/:id",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "inv"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GET - 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"pm.test(\"Status code retornou 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Cada usuário na lista deve ter todos os campos essenciais\", function () {\r",
+									"    pm.expect(pm.response.json().users).to.be.an('array');\r",
+									"\r",
+									"    pm.response.json().users.forEach(function (user, index) {\r",
+									"        pm.test(`Usuário #${index + 1} - Validação dos campos`, function () {\r",
+									"            pm.expect(user).to.have.property('id');\r",
+									"            pm.expect(user).to.have.property('firstName');\r",
+									"            pm.expect(user).to.have.property('lastName');\r",
+									"            pm.expect(user).to.have.property('email');\r",
+									"            pm.expect(user).to.have.property('phone');\r",
+									"            pm.expect(user).to.have.property('username');\r",
+									"        });\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/users",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/auth",
+			"item": [
+				{
+					"name": "/login",
+					"item": [
+						{
+							"name": "POST Credenciais Válidas - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response;\r",
+											"\r",
+											"// Salva Access Token gerado pela API numa variaavel da collection\r",
+											"pm.collectionVariables.set(\"accessToken\", \"Bearer \" + resp.json().accessToken);\r",
+											"\r",
+											"// Salva Refresh Token gerado pela API numa variaavel da collection\r",
+											"pm.collectionVariables.set(\"refreshToken\", \"Bearer \" + resp.json().refreshToken);\r",
+											"\r",
+											"pm.test(\"Status code retornou 200\", function () {\r",
+											"    resp.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response tem os campos 'username', 'accessToken' e 'refreshToken'\", function() {\r",
+											"    pm.expect(resp.json()).to.have.property('username');\r",
+											"    pm.expect(resp.json()).to.have.property('accessToken');\r",
+											"    pm.expect(resp.json()).to.have.property('refreshToken');\r",
+											"    pm.expect(resp.json().username).to.be.a('string').and.to.not.be.empty;\r",
+											"    pm.expect(resp.json().accessToken).to.be.a('string').and.to.not.be.empty;\r",
+											"    pm.expect(resp.json().refreshToken).to.be.a('string').and.to.not.be.empty;\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"emilys\",\n    \"password\": \"emilyspass\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base-url}}/auth/login",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Credenciais Inválidas - 400",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response;\r",
+											"\r",
+											"pm.test(\"Status code retornou 400\", function () {\r",
+											"    resp.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Campo 'message' retornou 'Invalid credentials'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"Invalid credentials\");\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"Invalidos\",\n    \"password\": \"invalidos\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base-url}}/auth/login",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "/products",
+					"item": [
+						{
+							"name": "GET Bearer Token Válido - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response;\r",
+											"\r",
+											"pm.test(\"Status code retornou 200\", function () {\r",
+											"    resp.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Cada produto na lista deve ter todos os campos essenciais\", function () {\r",
+											"    pm.expect(resp.json().products).to.be.an('array'); \r",
+											"\r",
+											"    resp.json().products.forEach(function (product, index) {\r",
+											"        pm.test(`Produto #${index + 1} - Validação dos campos`, function () {\r",
+											"            pm.expect(product).to.have.property('id');\r",
+											"            pm.expect(product).to.have.property('title');\r",
+											"            pm.expect(product).to.have.property('description');\r",
+											"            pm.expect(product).to.have.property('category');\r",
+											"            pm.expect(product).to.have.property('price');\r",
+											"            pm.expect(product).to.have.property('stock');\r",
+											"        });\r",
+											"    });\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{accessToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{base-url}}/auth/products",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"auth",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Bearer Refresh Token Válido - 200 Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response;\r",
+											"\r",
+											"pm.test(\"Status code retornou 200\", function () {\r",
+											"    resp.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Cada produto na lista deve ter todos os campos essenciais\", function () {\r",
+											"    pm.expect(resp.json().products).to.be.an('array'); \r",
+											"\r",
+											"    resp.json().products.forEach(function (product, index) {\r",
+											"        pm.test(`Produto #${index + 1} - Validação dos campos`, function () {\r",
+											"            pm.expect(product).to.have.property('id');\r",
+											"            pm.expect(product).to.have.property('title');\r",
+											"            pm.expect(product).to.have.property('description');\r",
+											"            pm.expect(product).to.have.property('category');\r",
+											"            pm.expect(product).to.have.property('price');\r",
+											"            pm.expect(product).to.have.property('stock');\r",
+											"        });\r",
+											"    });\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{refreshToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{base-url}}/auth/products",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"auth",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Bearer Token Inválido - 401",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response;\r",
+											"\r",
+											"pm.test(\"Status code retornou 401\", function () {\r",
+											"    resp.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Campo 'message' retornou 'Invalid/Expired Token!'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"Invalid/Expired Token!\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{accessToken}}inv"
+									}
+								],
+								"url": {
+									"raw": "{{base-url}}/auth/products",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"auth",
+										"products"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
-			},
-			"response": []
+			]
+		},
+		{
+			"name": "/products",
+			"item": [
+				{
+					"name": "/:id",
+					"item": [
+						{
+							"name": "GET - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response;\r",
+											"\r",
+											"pm.test(\"Status code retornou 200\", function () {\r",
+											"    resp.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(`Produto - Validação dos campos`, function () {\r",
+											"    pm.expect(resp.json()).to.have.property('id');\r",
+											"    pm.expect(resp.json()).to.have.property('title');\r",
+											"    pm.expect(resp.json()).to.have.property('description');\r",
+											"    pm.expect(resp.json()).to.have.property('category');\r",
+											"    pm.expect(resp.json()).to.have.property('price');\r",
+											"    pm.expect(resp.json()).to.have.property('stock');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/products/:id",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DEL - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response;\r",
+											"\r",
+											"pm.test(\"Status code retornou 200\", function () {\r",
+											"    resp.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Campo 'isDeleted' retornou 'true'\", function () {\r",
+											"    pm.expect(resp.json().isDeleted).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(`Produto - Validação dos campos`, function () {\r",
+											"    pm.expect(resp.json()).to.have.property('id');\r",
+											"    pm.expect(resp.json()).to.have.property('title');\r",
+											"    pm.expect(resp.json()).to.have.property('description');\r",
+											"    pm.expect(resp.json()).to.have.property('category');\r",
+											"    pm.expect(resp.json()).to.have.property('price');\r",
+											"    pm.expect(resp.json()).to.have.property('stock');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/products/:id",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Inválido - 404",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var resp = pm.response;\r",
+											"\r",
+											"pm.test(\"Status code retornou 404\", function () {\r",
+											"    resp.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Campo 'message' retornou 'Product with id '99999' not found'\", function () {\r",
+											"    pm.expect(resp.json().message).to.eql(\"Product with id '99999' not found\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/products/:id",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{idInvalido}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "/add",
+					"item": [
+						{
+							"name": "POST - 201",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code retornou 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(`Produto - Validação dos campos`, function () {\r",
+											"    pm.expect(pm.response.json()).to.have.property('id');\r",
+											"    pm.expect(pm.response.json()).to.have.property('title');\r",
+											"    pm.expect(pm.response.json()).to.have.property('description');\r",
+											"    pm.expect(pm.response.json()).to.have.property('category');\r",
+											"    pm.expect(pm.response.json()).to.have.property('price');\r",
+											"    pm.expect(pm.response.json()).to.have.property('stock');\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Perfume Oil\",\n    \"description\": \"Mega Discount, Impression of A...\",\n    \"price\": 13,\n    \"discountPercentage\": 8.4,\n    \"rating\": 4.26,\n    \"stock\": 65,\n    \"brand\": \"Impression of Acqua Di Gio\",\n    \"category\": \"fragrances\",\n    \"thumbnail\": \"https://i.dummyjson.com/data/products/11/thumnail.jpg\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base-url}}/products/add",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"products",
+										"add"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GET - 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var resp = pm.response;\r",
+									"\r",
+									"pm.test(\"Status code retornou 200\", function () {\r",
+									"    resp.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Cada produto na lista deve ter todos os campos essenciais\", function () {\r",
+									"    pm.expect(resp.json().products).to.be.an('array'); \r",
+									"\r",
+									"    resp.json().products.forEach(function (product, index) {\r",
+									"        pm.test(`Produto #${index + 1} - Validação dos campos`, function () {\r",
+									"            pm.expect(product).to.have.property('id');\r",
+									"            pm.expect(product).to.have.property('title');\r",
+									"            pm.expect(product).to.have.property('description');\r",
+									"            pm.expect(product).to.have.property('category');\r",
+									"            pm.expect(product).to.have.property('price');\r",
+									"            pm.expect(product).to.have.property('stock');\r",
+									"        });\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/products",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -407,6 +900,11 @@
 		{
 			"key": "base-url",
 			"value": "https://dummyjson.com",
+			"type": "default"
+		},
+		{
+			"key": "idInvalido",
+			"value": "99999",
 			"type": "default"
 		}
 	]
