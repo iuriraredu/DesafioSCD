@@ -1,7 +1,7 @@
 package br.com.iuriraredu.tests;
 
 import br.com.iuriraredu.config.TestConfig;
-import br.com.iuriraredu.models.TestResponse;
+import br.com.iuriraredu.models.TestEndpointResponse;
 import br.com.iuriraredu.services.TestEndpointService;
 import br.com.iuriraredu.utils.ReportUtils;
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +15,7 @@ public class TestEndpointTests extends TestConfig{
     @Test
     @DisplayName("Testar endpoint /test")
     public void testTestEndpoint(){
-        TestResponse response = TestEndpointService.getTestEndpoint();
+        TestEndpointResponse response = TestEndpointService.getTestEndpoint();
 
         assertAll("Verificar resposta do endpoint /test",
                 () -> assertEquals("ok", response.getStatus(), "Status deve ser 'ok'"),

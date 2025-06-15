@@ -1,18 +1,18 @@
 package br.com.iuriraredu.services;
 
 import br.com.iuriraredu.config.ApiConfig;
-import br.com.iuriraredu.models.TestResponse;
+import br.com.iuriraredu.models.TestEndpointResponse;
 
 import static io.restassured.RestAssured.given;
 
 public class TestEndpointService{
-    public static TestResponse getTestEndpoint(){
+    public static TestEndpointResponse getTestEndpoint(){
         return given()
                 .when()
                 .get(ApiConfig.getTestEndpoint())
                 .then()
                 .statusCode(200)
                 .extract()
-                .as(TestResponse.class);
+                .as(TestEndpointResponse.class);
     }
 }

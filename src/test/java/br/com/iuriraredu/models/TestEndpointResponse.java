@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TestResponse{
+public class TestEndpointResponse{
     private String status;
     private String method;
 }
