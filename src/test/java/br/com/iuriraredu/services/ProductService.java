@@ -15,11 +15,18 @@ public class ProductService{
                 .get(ApiConfig.getProductsEndpoint());
     }
 
-    public static Response getProductById(Integer id){
+    public static Response getProductById(String id){
         return given()
                 .contentType(ContentType.JSON)
                 .when()
                 .get(ApiConfig.getProductsEndpoint() + "/" + id);
+    }
+
+    public static Response delProductById(String id){
+        return given()
+                .contentType(ContentType.JSON)
+                .when()
+                .delete(ApiConfig.getProductsEndpoint() + "/" + id);
     }
 
     public static Response getAuthProducts(String token){

@@ -60,4 +60,12 @@ public abstract class ApiConfig {
     public static String getInvalidPassword() {
         return properties.getProperty("invalid.password");
     }
+
+    public static String getExistingProductId(){
+        return properties.getProperty("existing.product.id");
+    }
+
+    public static String getNonExistingProductId(){
+        return properties.getProperty("non.existing.product.id");
+    }
 }

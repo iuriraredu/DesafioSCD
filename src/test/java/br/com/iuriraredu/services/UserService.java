@@ -13,4 +13,18 @@ public class UserService{
                 .when()
                 .get(ApiConfig.getUsersEndpoint());
     }
+
+    public static Response getUsersById(String id) {
+        return given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get(ApiConfig.getUsersEndpoint() + "/" + id);
+    }
+
+    public static Response delUsersById(String id) {
+        return given()
+                .contentType(ContentType.JSON)
+                .when()
+                .delete(ApiConfig.getUsersEndpoint() + "/" + id);
+    }
 }

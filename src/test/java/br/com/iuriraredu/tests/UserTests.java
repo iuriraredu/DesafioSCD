@@ -1,5 +1,6 @@
 package br.com.iuriraredu.tests;
 
+import br.com.iuriraredu.config.ApiConfig;
 import br.com.iuriraredu.config.TestConfig;
 import br.com.iuriraredu.services.UserService;
 import br.com.iuriraredu.utils.ReportUtils;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(ReportUtils.class)
 public class UserTests extends TestConfig{
     @Test
-    @DisplayName("Listar usuários ")
+    @DisplayName("Listar usuários")
     public void testGetAllUsers(){
         var response = UserService.getUsers();
 
@@ -30,6 +31,64 @@ public class UserTests extends TestConfig{
             assertNotNull(((java.util.Map<?, ?>) user).get("username"), "Usuário deve ter username");
         });
 
-        ReportUtils.logInfo("Lista de usuários obtida com sucesso");
+        ReportUtils.logInfo("Lista de usuários obtida com sucesso - Status code: 200");
+    }
+
+    @Test
+    @DisplayName("Buscar usuário pelo ID Existente")
+    public void testGetUserById() {
+        var response = UserService.getUsersById(ApiConfig.getExistingProductId());
+
+        RestAssuredUtils.validateStatusCode(response, 200);
+        assertNotNull(response.jsonPath().get("id"), "Usuário deve ter ID");
+        assertNotNull(response.jsonPath().get("firstName"), "Usuário deve ter firstName");
+        assertNotNull(response.jsonPath().get("lastName"), "Usuário deve ter lastName");
+        assertNotNull(response.jsonPath().get("email"), "Usuário deve ter email");
+        assertNotNull(response.jsonPath().get("phone"), "Usuário deve ter phone");
+        assertNotNull(response.jsonPath().get("username"), "Usuário deve ter username");
+
+        ReportUtils.logInfo("Usuário obtido por ID com sucesso - Status code: 200");
+    }
+
+    @Test
+    @DisplayName("Buscar usuário pelo ID Inexistente")
+    public void testGetNonExistingUser() {
+        var response = UserService.getUsersById(ApiConfig.getNonExistingProductId());
+
+        RestAssuredUtils.validateStatusCode(response, 404);
+        assertEquals(
+                "User with id '" + ApiConfig.getNonExistingProductId()+ "' not found",
+                response.jsonPath().get("message")
+        );
+
+        ReportUtils.logInfo("Usuário inexistente - Status code: 404");
+    }
+
+    @Test
+    @DisplayName("Buscar usuário pelo ID Inexistente (Alfabético)")
+    public void testGetNonExistingUserAfabetic() {
+        var response = UserService.getUsersById("inv");
+
+        RestAssuredUtils.validateStatusCode(response, 400);
+        assertEquals("Invalid user id 'inv'", response.jsonPath().get("message"));
+
+        ReportUtils.logInfo("Usuário inexistente - Status code: 400");
+    }
+
+    @Test
+    @DisplayName("Deletar usuário pelo ID Existente")
+    public void testDelUserById() {
+        var response = UserService.delUsersById(ApiConfig.getExistingProductId());
+
+        RestAssuredUtils.validateStatusCode(response, 200);
+        assertNotNull(response.jsonPath().get("id"), "Usuário deve ter ID");
+        assertNotNull(response.jsonPath().get("firstName"), "Usuário deve ter firstName");
+        assertNotNull(response.jsonPath().get("lastName"), "Usuário deve ter lastName");
+        assertNotNull(response.jsonPath().get("email"), "Usuário deve ter email");
+        assertNotNull(response.jsonPath().get("phone"), "Usuário deve ter phone");
+        assertNotNull(response.jsonPath().get("username"), "Usuário deve ter username");
+        assertEquals(true, response.jsonPath().get("isDeleted"));
+
+        ReportUtils.logInfo("Usuário deletado por ID com sucesso - Status code: 200");
     }
 }

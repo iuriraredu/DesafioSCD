@@ -1,6 +1,5 @@
 package br.com.iuriraredu.tests;
 
-
 import br.com.iuriraredu.config.ApiConfig;
 import br.com.iuriraredu.config.TestConfig;
 import br.com.iuriraredu.models.AuthResponse;
@@ -33,7 +32,7 @@ public class AuthTests extends TestConfig{
                 () -> assertNotNull(response.getImage(), "Image URL não deve ser nula")
         );
 
-        ReportUtils.logInfo("Login realizado com sucesso com usuário: " + ApiConfig.getValidUsername());
+        ReportUtils.logInfo("Login realizado com sucesso com usuário: " + ApiConfig.getValidUsername() + " - Status Code: 200");
     }
 
     @Test
@@ -45,7 +44,7 @@ public class AuthTests extends TestConfig{
         assertNotNull(response.jsonPath().getString("message"),
                 "Mensagem de erro não deve ser nula");
 
-        ReportUtils.logInfo("Tentativa de login com credenciais vazias falhou - Status 400 retornado");
+        ReportUtils.logInfo("Tentativa de login com credenciais vazias falhou - Status Code: 400");
     }
 
     @Test
@@ -57,7 +56,19 @@ public class AuthTests extends TestConfig{
         var response = ProductService.getAuthProducts(token);
         RestAssuredUtils.validateStatusCode(response, 200);
 
-        ReportUtils.logInfo("Endpoint protegido acessado com token válido");
+        ReportUtils.logInfo("Endpoint protegido acessado com token válido - Status Code: 200");
+    }
+
+    @Test
+    @DisplayName("Listar Produtos após login com credenciais válidas")
+    public void testAccessProtectedEndpointWithValidRefreshToken() {
+        AuthResponse authResponse = AuthService.loginSuccess(ApiConfig.getValidUsername(), ApiConfig.getValidPassword());
+        String token = "Bearer " + authResponse.getRefreshToken();
+
+        var response = ProductService.getAuthProducts(token);
+        RestAssuredUtils.validateStatusCode(response, 200);
+
+        ReportUtils.logInfo("Endpoint protegido acessado com refresh token válido - Status Code: 200");
     }
 
     @Test
@@ -68,6 +79,6 @@ public class AuthTests extends TestConfig{
         var response = ProductService.getAuthProducts(invalidToken);
         RestAssuredUtils.validateStatusCode(response, 401);
 
-        ReportUtils.logInfo("Endpoint protegido não acessado com token inválido - Status 401 retornado");
+        ReportUtils.logInfo("Endpoint protegido não acessado com token inválido - Status Code: 401");
     }
 }

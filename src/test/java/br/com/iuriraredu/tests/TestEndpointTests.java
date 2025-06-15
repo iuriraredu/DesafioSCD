@@ -22,6 +22,6 @@ public class TestEndpointTests extends TestConfig{
                 () -> assertEquals("GET", response.getMethod(), "Method deve ser 'GET'")
         );
 
-        ReportUtils.logInfo("Endpoint /test testado com sucesso");
+        ReportUtils.logInfo("Endpoint /test testado com sucesso - Status code: 200");
     }
 }
