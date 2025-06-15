@@ -8,7 +8,7 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeAll;
 
-public class TestConfig {
+public abstract class TestConfig {
     protected static RequestSpecification requestSpec;
 
     @BeforeAll

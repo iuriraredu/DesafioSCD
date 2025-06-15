@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 @Getter
-public class ApiConfig {
+public abstract class ApiConfig {
     private static final Properties properties = new Properties();
 
     static {
@@ -61,4 +61,3 @@ public class ApiConfig {
         return properties.getProperty("invalid.password");
     }
 }
-

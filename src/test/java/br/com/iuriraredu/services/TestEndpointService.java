@@ -5,7 +5,7 @@ import br.com.iuriraredu.models.TestResponse;
 
 import static io.restassured.RestAssured.given;
 
-public class TestService{
+public class TestEndpointService{
     public static TestResponse getTestEndpoint(){
         return given()
                 .when()

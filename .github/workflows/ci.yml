@@ -11,23 +11,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           java-version: '21'
-          distribution: 'adopt'
+          distribution: 'temurin'
 
-      - name: Build with Maven
-        run: mvn clean package
+      - name: Run Tests and Generate Reports
+        run: mvn clean test  # Executa testes e gera relatórios de uma vez
 
-      - name: Run Tests
-        run: mvn test
+      - name: Ensure Reports Directory Exists
+        run: mkdir -p target/reports/  # Cria se não existir
+        if: always()
 
-      - name: Archive Test Results
-        uses: actions/upload-artifact@v2
+      - name: Upload ExtentReports
+        uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: test-reports
+          name: extent-reports
           path: target/reports/
+
+      - name: Show Reports Structure (debug)
+        run: ls -R target/reports/
+        if: always()
