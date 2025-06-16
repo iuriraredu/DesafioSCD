@@ -1,7 +1,7 @@
 package br.com.iuriraredu.tests;
 
-import br.com.iuriraredu.config.ApiConfig;
-import br.com.iuriraredu.config.TestConfig;
+import br.com.iuriraredu.config.PropertiesConfig;
+import br.com.iuriraredu.config.BaseTest;
 import br.com.iuriraredu.models.Product;
 import br.com.iuriraredu.services.ProductService;
 import br.com.iuriraredu.utils.JsonDataReader;
@@ -16,7 +16,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(ReportUtils.class)
-public class ProductTests extends TestConfig {
+public class ProductTests extends BaseTest {
 
     @Test
     @DisplayName("Listar todos os produtos")
@@ -33,7 +33,7 @@ public class ProductTests extends TestConfig {
     @Test
     @DisplayName("Buscar produto por ID existente")
     public void testGetProductById() {
-        var response = ProductService.getProductById(ApiConfig.getExistingProductId());
+        var response = ProductService.getProductById(PropertiesConfig.getExistingProductId());
 
         RestAssuredUtils.validateStatusCode(response, 200);
         assertNotNull(response.jsonPath().get("id"), "Produto deve ter um ID");
@@ -45,7 +45,7 @@ public class ProductTests extends TestConfig {
     @Test
     @DisplayName("Deletar produto por ID existente")
     public void testDelProductById() {
-        var response = ProductService.delProductById(ApiConfig.getExistingProductId());
+        var response = ProductService.delProductById(PropertiesConfig.getExistingProductId());
 
         RestAssuredUtils.validateStatusCode(response, 200);
         assertNotNull(response.jsonPath().get("id"), "Produto deve ter um ID");
@@ -58,7 +58,7 @@ public class ProductTests extends TestConfig {
     @Test
     @DisplayName("Buscar produto por ID inexistente")
     public void testGetNonExistingProduct() {
-        var response = ProductService.getProductById(ApiConfig.getNonExistingProductId());
+        var response = ProductService.getProductById(PropertiesConfig.getNonExistingProductId());
 
         RestAssuredUtils.validateStatusCode(response, 404);
         ReportUtils.logInfo("Produto inexistente - Status code: 404");

@@ -7,11 +7,11 @@ import java.io.InputStream;
 import java.util.Properties;
 
 @Getter
-public abstract class ApiConfig {
+public abstract class PropertiesConfig {
     private static final Properties properties = new Properties();
 
     static {
-        try (InputStream input = ApiConfig.class.getClassLoader().getResourceAsStream("config.properties")) {
+        try (InputStream input = PropertiesConfig.class.getClassLoader().getResourceAsStream("config.properties")) {
             if (input == null) {
                 throw new RuntimeException("config.properties não encontrado");
             }
@@ -26,15 +26,19 @@ public abstract class ApiConfig {
     }
 
     public static String getAuthEndpoint() {
-        return getBaseUrl() + properties.getProperty("auth.endpoint");
+        return getBaseUrl() + properties.getProperty("auth.endpoint") + "/login";
     }
 
     public static String getAuthProductsEndpoint() {
-        return getBaseUrl() + properties.getProperty("auth.products.endpoint");
+        return getBaseUrl() + properties.getProperty("auth.endpoint") + properties.getProperty("products.endpoint");
     }
 
     public static String getProductsEndpoint() {
         return getBaseUrl() + properties.getProperty("products.endpoint");
+    }
+
+    public static String getAddProductsEndpoint() {
+        return getBaseUrl() + properties.getProperty("products.endpoint")  + "/add";
     }
 
     public static String getUsersEndpoint() {
@@ -67,5 +71,13 @@ public abstract class ApiConfig {
 
     public static String getNonExistingProductId(){
         return properties.getProperty("non.existing.product.id");
+    }
+
+    public static String getReporName(){
+        return properties.getProperty("report.name");
+    }
+
+    public static String getReporPath(){
+        return properties.getProperty("report.path");
     }
 }

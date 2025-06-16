@@ -8,12 +8,12 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeAll;
 
-public abstract class TestConfig {
+public abstract class BaseTest {
     protected static RequestSpecification requestSpec;
 
     @BeforeAll
     public static void setup() {
-        RestAssured.baseURI = ApiConfig.getBaseUrl();
+        RestAssured.baseURI = PropertiesConfig.getBaseUrl();
 
         requestSpec = new RequestSpecBuilder()
                 .setContentType(ContentType.JSON)

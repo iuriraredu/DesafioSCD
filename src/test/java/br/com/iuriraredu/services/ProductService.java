@@ -1,6 +1,6 @@
 package br.com.iuriraredu.services;
 
-import br.com.iuriraredu.config.ApiConfig;
+import br.com.iuriraredu.config.PropertiesConfig;
 import br.com.iuriraredu.models.Product;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -12,21 +12,21 @@ public class ProductService{
         return given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(ApiConfig.getProductsEndpoint());
+                .get(PropertiesConfig.getProductsEndpoint());
     }
 
     public static Response getProductById(String id){
         return given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(ApiConfig.getProductsEndpoint() + "/" + id);
+                .get(PropertiesConfig.getProductsEndpoint() + "/" + id);
     }
 
     public static Response delProductById(String id){
         return given()
                 .contentType(ContentType.JSON)
                 .when()
-                .delete(ApiConfig.getProductsEndpoint() + "/" + id);
+                .delete(PropertiesConfig.getProductsEndpoint() + "/" + id);
     }
 
     public static Response getAuthProducts(String token){
@@ -34,7 +34,7 @@ public class ProductService{
                 .contentType(ContentType.JSON)
                 .header("Authorization", token)
                 .when()
-                .get(ApiConfig.getAuthProductsEndpoint());
+                .get(PropertiesConfig.getAuthProductsEndpoint());
     }
 
     public static Response addProduct(Product product){
@@ -42,6 +42,6 @@ public class ProductService{
                 .contentType(ContentType.JSON)
                 .body(product)
                 .when()
-                .post(ApiConfig.getProductsEndpoint() + "/add");
+                .post(PropertiesConfig.getAddProductsEndpoint());
     }
 }

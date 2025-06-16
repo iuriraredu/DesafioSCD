@@ -1,6 +1,6 @@
 package br.com.iuriraredu.tests;
 
-import br.com.iuriraredu.config.TestConfig;
+import br.com.iuriraredu.config.BaseTest;
 import br.com.iuriraredu.models.TestEndpointResponse;
 import br.com.iuriraredu.services.TestEndpointService;
 import br.com.iuriraredu.utils.ReportUtils;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(ReportUtils.class)
-public class TestEndpointTests extends TestConfig{
+public class TestEndpointTests extends BaseTest {
     @Test
     @DisplayName("Testar endpoint /test")
     public void testTestEndpoint(){

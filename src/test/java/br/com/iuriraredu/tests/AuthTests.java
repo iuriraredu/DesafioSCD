@@ -1,7 +1,7 @@
 package br.com.iuriraredu.tests;
 
-import br.com.iuriraredu.config.ApiConfig;
-import br.com.iuriraredu.config.TestConfig;
+import br.com.iuriraredu.config.PropertiesConfig;
+import br.com.iuriraredu.config.BaseTest;
 import br.com.iuriraredu.models.AuthResponse;
 import br.com.iuriraredu.services.AuthService;
 import br.com.iuriraredu.services.ProductService;
@@ -14,17 +14,20 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(ReportUtils.class)
-public class AuthTests extends TestConfig{
+public class AuthTests extends BaseTest {
 
     @Test
     @DisplayName("Login com credenciais válidas")
     public void testSuccessfulLogin() {
-        AuthResponse response = AuthService.loginSuccess(ApiConfig.getValidUsername(), ApiConfig.getValidPassword());
+        AuthResponse response = AuthService.loginSuccess(
+                PropertiesConfig.getValidUsername(),
+                PropertiesConfig.getValidPassword()
+        );
 
         assertAll("Verifica todos os campos da resposta de sucesso",
                 () -> assertNotNull(response.getAccessToken(), "Access token não deve ser nulo"),
                 () -> assertNotNull(response.getRefreshToken(), "Refresh token não deve ser nulo"),
-                () -> assertEquals(ApiConfig.getValidUsername(), response.getUsername(), "Username deve corresponder"),
+                () -> assertEquals(PropertiesConfig.getValidUsername(), response.getUsername(), "Username deve corresponder"),
                 () -> assertNotNull(response.getId(), "ID não deve ser nulo"),
                 () -> assertNotNull(response.getFirstName(), "First Name não deve ser nulo"),
                 () -> assertNotNull(response.getLastName(), "Last não deve ser nulo"),
@@ -32,13 +35,16 @@ public class AuthTests extends TestConfig{
                 () -> assertNotNull(response.getImage(), "Image URL não deve ser nula")
         );
 
-        ReportUtils.logInfo("Login realizado com sucesso com usuário: " + ApiConfig.getValidUsername() + " - Status Code: 200");
+        ReportUtils.logInfo("Login realizado com sucesso com usuário: " + PropertiesConfig.getValidUsername() + " - Status Code: 200");
     }
 
     @Test
     @DisplayName("Login com credenciais inválidas")
     public void testLoginWithEmptyCredentials() {
-        var response = AuthService.loginFailure("", "");
+        var response = AuthService.loginFailure(
+                PropertiesConfig.getInvalidUsername(),
+                PropertiesConfig.getInvalidPassword()
+        );
 
         assertEquals(400, response.getStatusCode(), "Status code deve ser 400");
         assertNotNull(response.jsonPath().getString("message"),
@@ -50,7 +56,10 @@ public class AuthTests extends TestConfig{
     @Test
     @DisplayName("Listar Produtos após login com credenciais válidas")
     public void testAccessProtectedEndpointWithValidToken() {
-        AuthResponse authResponse = AuthService.loginSuccess(ApiConfig.getValidUsername(), ApiConfig.getValidPassword());
+        AuthResponse authResponse = AuthService.loginSuccess(
+                PropertiesConfig.getValidUsername(),
+                PropertiesConfig.getValidPassword()
+        );
         String token = "Bearer " + authResponse.getAccessToken();
 
         var response = ProductService.getAuthProducts(token);
@@ -62,7 +71,10 @@ public class AuthTests extends TestConfig{
     @Test
     @DisplayName("Listar Produtos após login com credenciais válidas")
     public void testAccessProtectedEndpointWithValidRefreshToken() {
-        AuthResponse authResponse = AuthService.loginSuccess(ApiConfig.getValidUsername(), ApiConfig.getValidPassword());
+        AuthResponse authResponse = AuthService.loginSuccess(
+                PropertiesConfig.getValidUsername(),
+                PropertiesConfig.getValidPassword()
+        );
         String token = "Bearer " + authResponse.getRefreshToken();
 
         var response = ProductService.getAuthProducts(token);

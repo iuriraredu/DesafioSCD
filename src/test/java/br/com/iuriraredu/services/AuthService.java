@@ -1,6 +1,6 @@
 package br.com.iuriraredu.services;
 
-import br.com.iuriraredu.config.ApiConfig;
+import br.com.iuriraredu.config.PropertiesConfig;
 import br.com.iuriraredu.models.AuthResponse;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -14,7 +14,7 @@ public class AuthService {
                 .contentType(ContentType.JSON)
                 .body(String.format("{\"username\": \"%s\", \"password\": \"%s\"}", username, password))
                 .when()
-                .post(ApiConfig.getAuthEndpoint())
+                .post(PropertiesConfig.getAuthEndpoint())
                 .then()
                 .statusCode(200)
                 .extract()
@@ -26,7 +26,7 @@ public class AuthService {
                 .contentType(ContentType.JSON)
                 .body(String.format("{\"username\": \"%s\", \"password\": \"%s\"}", username, password))
                 .when()
-                .post(ApiConfig.getAuthEndpoint())
+                .post(PropertiesConfig.getAuthEndpoint())
                 .then()
                 .statusCode(400)
                 .extract()
