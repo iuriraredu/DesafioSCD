@@ -1,6 +1,6 @@
 package br.com.iuriraredu.services;
 
-import br.com.iuriraredu.config.ApiConfig;
+import br.com.iuriraredu.config.PropertiesConfig;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
@@ -11,20 +11,20 @@ public class UserService{
         return given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(ApiConfig.getUsersEndpoint());
+                .get(PropertiesConfig.getUsersEndpoint());
     }
 
     public static Response getUsersById(String id) {
         return given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(ApiConfig.getUsersEndpoint() + "/" + id);
+                .get(PropertiesConfig.getUsersEndpoint() + "/" + id);
     }
 
     public static Response delUsersById(String id) {
         return given()
                 .contentType(ContentType.JSON)
                 .when()
-                .delete(ApiConfig.getUsersEndpoint() + "/" + id);
+                .delete(PropertiesConfig.getUsersEndpoint() + "/" + id);
     }
 }

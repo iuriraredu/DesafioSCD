@@ -1,7 +1,7 @@
 package br.com.iuriraredu.tests;
 
-import br.com.iuriraredu.config.ApiConfig;
-import br.com.iuriraredu.config.TestConfig;
+import br.com.iuriraredu.config.PropertiesConfig;
+import br.com.iuriraredu.config.BaseTest;
 import br.com.iuriraredu.services.UserService;
 import br.com.iuriraredu.utils.ReportUtils;
 import br.com.iuriraredu.utils.RestAssuredUtils;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ReportUtils.class)
-public class UserTests extends TestConfig{
+public class UserTests extends BaseTest {
     @Test
     @DisplayName("Listar usuários")
     public void testGetAllUsers(){
@@ -39,7 +39,7 @@ public class UserTests extends TestConfig{
     @Test
     @DisplayName("Buscar usuário pelo ID Existente")
     public void testGetUserById() {
-        var response = UserService.getUsersById(ApiConfig.getExistingProductId());
+        var response = UserService.getUsersById(PropertiesConfig.getExistingProductId());
 
         RestAssuredUtils.validateStatusCode(response, 200);
         assertNotNull(response.jsonPath().get("id"), "Usuário deve ter ID");
@@ -55,11 +55,11 @@ public class UserTests extends TestConfig{
     @Test
     @DisplayName("Buscar usuário pelo ID Inexistente")
     public void testGetNonExistingUser() {
-        var response = UserService.getUsersById(ApiConfig.getNonExistingProductId());
+        var response = UserService.getUsersById(PropertiesConfig.getNonExistingProductId());
 
         RestAssuredUtils.validateStatusCode(response, 404);
         assertEquals(
-                "User with id '" + ApiConfig.getNonExistingProductId()+ "' not found",
+                "User with id '" + PropertiesConfig.getNonExistingProductId()+ "' not found",
                 response.jsonPath().get("message")
         );
 
@@ -80,7 +80,7 @@ public class UserTests extends TestConfig{
     @Test
     @DisplayName("Deletar usuário pelo ID Existente")
     public void testDelUserById() {
-        var response = UserService.delUsersById(ApiConfig.getExistingProductId());
+        var response = UserService.delUsersById(PropertiesConfig.getExistingProductId());
 
         RestAssuredUtils.validateStatusCode(response, 200);
         assertNotNull(response.jsonPath().get("id"), "Usuário deve ter ID");
