@@ -1,5 +1,6 @@
 package br.com.iuriraredu.utils;
 
+import br.com.iuriraredu.config.ApiConfig;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
@@ -16,14 +17,13 @@ import java.time.format.DateTimeFormatter;
 public class ReportUtils implements BeforeAllCallback, AfterAllCallback, BeforeTestExecutionCallback, AfterTestExecutionCallback{
     private static ExtentReports extent;
     private static ExtentTest test;
-    private static final String REPORT_PATH = "target/reports/";
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
 
     @Override
     public void beforeAll(ExtensionContext context){
         if (extent == null){
-            String reportName = "TestReport_" + dtf.format(LocalDateTime.now()) + ".html";
-            ExtentSparkReporter spark = new ExtentSparkReporter(REPORT_PATH + reportName);
+            String reportName = ApiConfig.getReportName() + dtf.format(LocalDateTime.now()) + ".html";
+            ExtentSparkReporter spark = new ExtentSparkReporter(ApiConfig.getReportPath() + reportName);
             extent = new ExtentReports();
             extent.attachReporter(spark);
         }

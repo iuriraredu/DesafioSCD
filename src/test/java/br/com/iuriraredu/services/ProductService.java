@@ -29,12 +29,13 @@ public class ProductService{
                 .delete(ApiConfig.getProductsEndpoint() + "/" + id);
     }
 
-    public static Response getAuthProducts(String token){
+    public static Response
+    getAuthProducts(String token){
         return given()
                 .contentType(ContentType.JSON)
                 .header("Authorization", token)
                 .when()
-                .get(ApiConfig.getAuthProductsEndpoint());
+                .get(ApiConfig.getAuthEndpoint() + "/products");
     }
 
     public static Response addProduct(Product product){

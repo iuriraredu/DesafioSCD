@@ -29,10 +29,6 @@ public abstract class ApiConfig {
         return getBaseUrl() + properties.getProperty("auth.endpoint");
     }
 
-    public static String getAuthProductsEndpoint() {
-        return getBaseUrl() + properties.getProperty("auth.products.endpoint");
-    }
-
     public static String getProductsEndpoint() {
         return getBaseUrl() + properties.getProperty("products.endpoint");
     }
@@ -67,5 +63,13 @@ public abstract class ApiConfig {
 
     public static String getNonExistingProductId(){
         return properties.getProperty("non.existing.product.id");
+    }
+
+    public static String getReportName(){
+        return properties.getProperty("report.name");
+    }
+
+    public static String getReportPath(){
+        return properties.getProperty("report.path");
     }
 }
