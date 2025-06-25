@@ -1,6 +1,6 @@
 package br.com.iuriraredu.tests;
 
-import br.com.iuriraredu.config.PropertiesConfig;
+import br.com.iuriraredu.config.ApiConfig;
 import br.com.iuriraredu.config.BaseTest;
 import br.com.iuriraredu.models.AuthResponse;
 import br.com.iuriraredu.services.AuthService;
@@ -22,14 +22,14 @@ public class AuthTests extends BaseTest {
     @DisplayName("Login com credenciais válidas")
     public void testSuccessfulLogin() {
         AuthResponse response = AuthService.loginSuccess(
-                PropertiesConfig.getValidUsername(),
-                PropertiesConfig.getValidPassword()
+                ApiConfig.getValidUsername(),
+                ApiConfig.getValidPassword()
         );
 
         assertAll("Verifica todos os campos da resposta de sucesso",
                 () -> assertNotNull(response.getAccessToken(), "Access token não deve ser nulo"),
                 () -> assertNotNull(response.getRefreshToken(), "Refresh token não deve ser nulo"),
-                () -> assertEquals(PropertiesConfig.getValidUsername(), response.getUsername(), "Username deve corresponder"),
+                () -> assertEquals(ApiConfig.getValidUsername(), response.getUsername(), "Username deve corresponder"),
                 () -> assertNotNull(response.getId(), "ID não deve ser nulo"),
                 () -> assertNotNull(response.getFirstName(), "First Name não deve ser nulo"),
                 () -> assertNotNull(response.getLastName(), "Last não deve ser nulo"),
@@ -37,15 +37,15 @@ public class AuthTests extends BaseTest {
                 () -> assertNotNull(response.getImage(), "Image URL não deve ser nula")
         );
 
-        ReportUtils.logInfo("Login realizado com sucesso com usuário: " + PropertiesConfig.getValidUsername() + " - Status Code: 200");
+        ReportUtils.logInfo("Login realizado com sucesso com usuário: " + ApiConfig.getValidUsername() + " - Status Code: 200");
     }
 
     @Test
     @DisplayName("Login com credenciais inválidas")
     public void testLoginWithEmptyCredentials() {
         var response = AuthService.loginFailure(
-                PropertiesConfig.getInvalidUsername(),
-                PropertiesConfig.getInvalidPassword()
+                ApiConfig.getInvalidUsername(),
+                ApiConfig.getInvalidPassword()
         );
 
         assertEquals(400, response.getStatusCode(), "Status code deve ser 400");
@@ -59,8 +59,8 @@ public class AuthTests extends BaseTest {
     @DisplayName("Listar Produtos após login com credenciais válidas")
     public void testAccessProtectedEndpointWithValidToken() {
         AuthResponse authResponse = AuthService.loginSuccess(
-                PropertiesConfig.getValidUsername(),
-                PropertiesConfig.getValidPassword()
+                ApiConfig.getValidUsername(),
+                ApiConfig.getValidPassword()
         );
         String token = "Bearer " + authResponse.getAccessToken();
 
@@ -74,8 +74,8 @@ public class AuthTests extends BaseTest {
     @DisplayName("Listar Produtos após login com credenciais válidas")
     public void testAccessProtectedEndpointWithValidRefreshToken() {
         AuthResponse authResponse = AuthService.loginSuccess(
-                PropertiesConfig.getValidUsername(),
-                PropertiesConfig.getValidPassword()
+                ApiConfig.getValidUsername(),
+                ApiConfig.getValidPassword()
         );
         String token = "Bearer " + authResponse.getRefreshToken();
 

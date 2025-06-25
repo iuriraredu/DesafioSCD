@@ -13,7 +13,7 @@ public abstract class BaseTest {
 
     @BeforeAll
     public static void setup() {
-        RestAssured.baseURI = PropertiesConfig.getBaseUrl();
+        RestAssured.baseURI = ApiConfig.getBaseUrl();
 
         requestSpec = new RequestSpecBuilder()
                 .setContentType(ContentType.JSON)

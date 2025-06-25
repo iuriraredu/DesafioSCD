@@ -1,6 +1,6 @@
 package br.com.iuriraredu.tests;
 
-import br.com.iuriraredu.config.PropertiesConfig;
+import br.com.iuriraredu.config.ApiConfig;
 import br.com.iuriraredu.config.BaseTest;
 import br.com.iuriraredu.models.Product;
 import br.com.iuriraredu.services.ProductService;
@@ -35,7 +35,7 @@ public class ProductTests extends BaseTest {
     @Test
     @DisplayName("Buscar produto por ID existente")
     public void testGetProductById() {
-        var response = ProductService.getProductById(PropertiesConfig.getExistingProductId());
+        var response = ProductService.getProductById(ApiConfig.getExistingProductId());
 
         RestAssuredUtils.validateStatusCode(response, 200);
         assertNotNull(response.jsonPath().get("id"), "Produto deve ter um ID");
@@ -47,7 +47,7 @@ public class ProductTests extends BaseTest {
     @Test
     @DisplayName("Deletar produto por ID existente")
     public void testDelProductById() {
-        var response = ProductService.delProductById(PropertiesConfig.getExistingProductId());
+        var response = ProductService.delProductById(ApiConfig.getExistingProductId());
 
         RestAssuredUtils.validateStatusCode(response, 200);
         assertNotNull(response.jsonPath().get("id"), "Produto deve ter um ID");
@@ -60,7 +60,7 @@ public class ProductTests extends BaseTest {
     @Test
     @DisplayName("Buscar produto por ID inexistente")
     public void testGetNonExistingProduct() {
-        var response = ProductService.getProductById(PropertiesConfig.getNonExistingProductId());
+        var response = ProductService.getProductById(ApiConfig.getNonExistingProductId());
 
         RestAssuredUtils.validateStatusCode(response, 404);
         ReportUtils.logInfo("Produto inexistente - Status code: 404");
