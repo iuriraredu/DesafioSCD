@@ -1,0 +1,27 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "iPhone 9",
+      "description": "An apple mobile which is nothing like apple",
+      "price": 549,
+      "stock": 94,
+      "category": "smartphones"
+    },
+    {
+      "id": 20,
+      "title": "Perfume Oil",
+      "description": "Mega Discount, Impression of A...",
+      "price": 13,
+      "stock": 65,
+      "category": "fragrances"
+    }
+  ],
+  "newProduct": {
+    "title": "Novo Produto Teste",
+    "description": "Descrição do novo produto de teste",
+    "price": 99.99,
+    "stock": 10,
+    "category": "eletrônicos"
+  }
+}

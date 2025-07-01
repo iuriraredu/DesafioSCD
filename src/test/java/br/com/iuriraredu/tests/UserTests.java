@@ -13,8 +13,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * Classe de testes para operações relacionadas a usuários na API.
+ * Contém cenários para listar, buscar e remover usuários, incluindo casos positivos e negativos.
+ */
 @ExtendWith(ReportUtils.class)
 public class UserTests extends BaseTest {
+
+    /**
+     * Testa a listagem de todos os usuários.
+     * Verifica se a resposta retorna status 200 e a lista não está vazia.
+     * Também valida os campos essenciais de cada usuário retornado.
+     */
     @Test
     @DisplayName("Listar usuários")
     public void testGetAllUsers(){
@@ -36,6 +46,10 @@ public class UserTests extends BaseTest {
         ReportUtils.logInfo("Lista de usuários obtida com sucesso - Status code: 200");
     }
 
+    /**
+     * Testa a busca de um usuário por ID existente.
+     * Verifica se a resposta retorna status 200 e os campos essenciais do usuário.
+     */
     @Test
     @DisplayName("Buscar usuário pelo ID Existente")
     public void testGetUserById() {
@@ -52,6 +66,10 @@ public class UserTests extends BaseTest {
         ReportUtils.logInfo("Usuário obtido por ID com sucesso - Status code: 200");
     }
 
+    /**
+     * Testa a busca de um usuário por ID inexistente.
+     * Verifica se a resposta retorna status 404 e a mensagem de erro apropriada.
+     */
     @Test
     @DisplayName("Buscar usuário pelo ID Inexistente")
     public void testGetNonExistingUser() {
@@ -66,6 +84,10 @@ public class UserTests extends BaseTest {
         ReportUtils.logInfo("Usuário inexistente - Status code: 404");
     }
 
+    /**
+     * Testa a busca de um usuário por ID alfabético inválido.
+     * Verifica se a resposta retorna status 400 e a mensagem de erro apropriada.
+     */
     @Test
     @DisplayName("Buscar usuário pelo ID Inexistente (Alfabético)")
     public void testGetNonExistingUserAfabetic() {
@@ -77,6 +99,10 @@ public class UserTests extends BaseTest {
         ReportUtils.logInfo("Usuário inexistente - Status code: 400");
     }
 
+    /**
+     * Testa a remoção de um usuário por ID existente.
+     * Verifica se a resposta retorna status 200, os campos essenciais e se o usuário foi marcado como deletado.
+     */
     @Test
     @DisplayName("Deletar usuário pelo ID Existente")
     public void testDelUserById() {

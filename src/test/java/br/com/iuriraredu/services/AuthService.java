@@ -7,8 +7,20 @@ import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
+/**
+ * Serviço responsável pelas operações de autenticação na API.
+ * Fornece métodos para realizar login com sucesso e login com falha, retornando os objetos de resposta apropriados.
+ */
 public class AuthService {
 
+    /**
+     * Realiza o login com credenciais válidas.
+     * Envia uma requisição POST para o endpoint de autenticação e espera status 200.
+     *
+     * @param username Nome de usuário válido.
+     * @param password Senha válida.
+     * @return AuthResponse contendo os dados retornados pela API após login bem-sucedido.
+     */
     public static AuthResponse loginSuccess(String username, String password) {
         return given()
                 .contentType(ContentType.JSON)
@@ -21,6 +33,14 @@ public class AuthService {
                 .as(AuthResponse.class);
     }
 
+    /**
+     * Realiza o login com credenciais inválidas.
+     * Envia uma requisição POST para o endpoint de autenticação e espera status 400.
+     *
+     * @param username Nome de usuário inválido.
+     * @param password Senha inválida.
+     * @return Response contendo a resposta da API após tentativa de login mal-sucedida.
+     */
     public static Response loginFailure(String username, String password) {
         return given()
                 .contentType(ContentType.JSON)

@@ -17,9 +17,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * Classe de testes para operações relacionadas a produtos na API.
+ * Contém cenários para listar, buscar, adicionar e remover produtos, incluindo casos positivos e negativos.
+ */
 @ExtendWith(ReportUtils.class)
 public class ProductTests extends BaseTest {
 
+    /**
+     * Testa a listagem de todos os produtos.
+     * Verifica se a resposta retorna status 200 e a lista não está vazia.
+     */
     @Test
     @DisplayName("Listar todos os produtos")
     public void testGetAllProducts() {
@@ -32,6 +40,10 @@ public class ProductTests extends BaseTest {
         ReportUtils.logInfo("Lista de produtos obtida com sucesso - Status code: 200");
     }
 
+    /**
+     * Testa a busca de um produto por ID existente.
+     * Verifica se a resposta retorna status 200 e os campos essenciais do produto.
+     */
     @Test
     @DisplayName("Buscar produto por ID existente")
     public void testGetProductById() {
@@ -44,6 +56,10 @@ public class ProductTests extends BaseTest {
         ReportUtils.logInfo("Produto obtido por ID com sucesso - Status code: 200");
     }
 
+    /**
+     * Testa a remoção de um produto por ID existente.
+     * Verifica se a resposta retorna status 200 e o produto foi marcado como deletado.
+     */
     @Test
     @DisplayName("Deletar produto por ID existente")
     public void testDelProductById() {
@@ -57,6 +73,10 @@ public class ProductTests extends BaseTest {
         ReportUtils.logInfo("Produto deletado por ID com sucesso - Status code: 200");
     }
 
+    /**
+     * Testa a busca de um produto por ID inexistente.
+     * Verifica se a resposta retorna status 404.
+     */
     @Test
     @DisplayName("Buscar produto por ID inexistente")
     public void testGetNonExistingProduct() {
@@ -66,6 +86,10 @@ public class ProductTests extends BaseTest {
         ReportUtils.logInfo("Produto inexistente - Status code: 404");
     }
 
+    /**
+     * Testa a adição de um novo produto.
+     * Verifica se a resposta retorna status 201 e os campos essenciais do produto adicionado.
+     */
     @Test
     @DisplayName("Adicionar novo produto")
     public void testAddProduct() {
@@ -86,6 +110,10 @@ public class ProductTests extends BaseTest {
         ReportUtils.logInfo("Produto adicionado com sucesso - Status code: 201");
     }
 
+    /**
+     * Testa a adição de um novo produto utilizando dados de um arquivo JSON.
+     * Verifica se a resposta retorna status 201 e os campos essenciais do produto adicionado.
+     */
     @Test
     @DisplayName("Adicionar produto com dados do JSON")
     public void testAddProductWithJsonData() throws IOException {

@@ -11,8 +11,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Classe de testes para o endpoint de teste da API.
+ * Verifica se o endpoint /test retorna status e método corretos.
+ */
 @ExtendWith(ReportUtils.class)
 public class TestEndpointTests extends BaseTest {
+    /**
+     * Testa o endpoint /test.
+     * Verifica se o status retornado é "ok" e o método é "GET".
+     */
     @Test
     @DisplayName("Testar endpoint /test")
     public void testTestEndpoint(){

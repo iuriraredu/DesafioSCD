@@ -15,9 +15,17 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * Classe de testes para autenticação e acesso a endpoints protegidos da API.
+ * Contém cenários de login com credenciais válidas e inválidas, além de testes de acesso a endpoints protegidos com diferentes tokens.
+ */
 @ExtendWith(ReportUtils.class)
 public class AuthTests extends BaseTest {
 
+    /**
+     * Testa o login com credenciais válidas.
+     * Verifica se todos os campos essenciais da resposta estão presentes e corretos.
+     */
     @Test
     @DisplayName("Login com credenciais válidas")
     public void testSuccessfulLogin() {
@@ -40,6 +48,10 @@ public class AuthTests extends BaseTest {
         ReportUtils.logInfo("Login realizado com sucesso com usuário: " + ApiConfig.getValidUsername() + " - Status Code: 200");
     }
 
+    /**
+     * Testa o login com credenciais inválidas.
+     * Verifica se a API retorna status 400 e mensagem de erro.
+     */
     @Test
     @DisplayName("Login com credenciais inválidas")
     public void testLoginWithEmptyCredentials() {
@@ -55,6 +67,10 @@ public class AuthTests extends BaseTest {
         ReportUtils.logInfo("Tentativa de login com credenciais vazias falhou - Status Code: 400");
     }
 
+    /**
+     * Testa o acesso ao endpoint protegido de produtos com token de acesso válido.
+     * Espera status 200.
+     */
     @Test
     @DisplayName("Listar Produtos após login com credenciais válidas")
     public void testAccessProtectedEndpointWithValidToken() {
@@ -70,6 +86,10 @@ public class AuthTests extends BaseTest {
         ReportUtils.logInfo("Endpoint protegido acessado com token válido - Status Code: 200");
     }
 
+    /**
+     * Testa o acesso ao endpoint protegido de produtos com refresh token válido.
+     * Espera status 200.
+     */
     @Test
     @DisplayName("Listar Produtos após login com credenciais válidas")
     public void testAccessProtectedEndpointWithValidRefreshToken() {
@@ -85,6 +105,10 @@ public class AuthTests extends BaseTest {
         ReportUtils.logInfo("Endpoint protegido acessado com refresh token válido - Status Code: 200");
     }
 
+    /**
+     * Testa o acesso ao endpoint protegido de produtos com token inválido.
+     * Espera status 401.
+     */
     @Test
     @DisplayName("Login com com token inválido")
     public void testAccessProtectedEndpointWithInvalidToken() {
